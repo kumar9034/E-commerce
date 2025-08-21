@@ -4,8 +4,9 @@ import axios from 'axios'
 const Navbar = ({logo}) => {
 
   const handlelogout = async () => {
+    const API = import.meta.env.VITE_API_URL;
     const res = await axios({
-      url: `${process.env.BACKEND_URL}/users/logout`,
+      url: `${API}/users/logout`,
       method: "GET",
     })
     if (res.status === 200) {

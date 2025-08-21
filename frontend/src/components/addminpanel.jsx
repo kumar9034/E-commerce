@@ -54,8 +54,9 @@ const Addminpanel = () => {
   console.log(formData);
 
   try {
+    const API = import.meta.env.VITE_API_URL;
     const res = await axios.post(
-      `${process.env.BACKEND_URL}/products/`,
+      `${API}/products/`,
       formData,
       { headers: { "Content-Type": "multipart/form-data" } }
     );

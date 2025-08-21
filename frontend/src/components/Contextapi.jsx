@@ -10,8 +10,9 @@ function UserProvider({ children }) {
   // Fetch product detail
   const detailProduct = async (id, token) => {
     try {
+      const API = import.meta.env.VITE_API_URL;
       const res = await axios.get(
-        `${process.env.BACKEND_URL}/dashboard/detail/${id}`,
+        `${API}/dashboard/detail/${id}`,
         {
           withCredentials: true,
           headers: {

@@ -53,9 +53,10 @@ const handlbutton = async (e) => {
     }
     
     try{
+        const API = import.meta.env.VITE_API_URL;
         let  res = await  axios({
             method: "POST",
-            url: `${process.env.BACKEND_URL}/OTP/send-otp`,
+            url: `${API}/OTP/send-otp`,
             data: {
                 email
             }

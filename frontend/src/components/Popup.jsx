@@ -28,10 +28,10 @@ const Popup = ({ onClose }) => {
         setMobile("")
         console.log(mobile)
         const token = localStorage.getItem("token");
-       
+       const API = import.meta.env.VITE_API_URL;
            let res =  await axios({
                 method: "POST",
-                url: `${process.env.BACKEND_URL}/users/contact-number`,
+                url: `${API}/users/contact-number`,
                 data:{
                     mobile
                 },

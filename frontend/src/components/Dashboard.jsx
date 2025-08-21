@@ -25,7 +25,8 @@ const Dashboard = () => {
     }
     
     try {
-      let res = await axios.get(`${process.env.BACKEND_URL}/dashboard/shop`, {
+      const API = import.meta.env.VITE_API_URL;
+      let res = await axios.get(`${API}/dashboard/shop`, {
         headers: {
           Authorization: `Bearer ${token}`, // ya sessionStorage
         }

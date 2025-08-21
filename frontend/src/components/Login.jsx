@@ -30,9 +30,10 @@ const Login = () => {
     setPassword("")
     console.log("User logged in:", { email, password })
     try {
+      const API = import.meta.env.VITE_API_URL;
      let res = await axios({
         method: 'post',
-        url: `${process.env.BACKEND_URL}/users/login`,
+        url: `${API}/users/login`,
         data: {
           email,
           password,

@@ -44,10 +44,10 @@ const Verify = () => {
     const verifyotp = async (e) => {
         // e.preventDefault()
         setOtp("")
-
+        const API = import.meta.env.VITE_API_URL;
         const res = await axios({
             method: "POST",
-            url: `${process.env.BACKEND_URL}/OTP/verify-otp`,
+            url: `${API}/OTP/verify-otp`,
             withCredentials: true,
             data: {
                 otp,
@@ -56,9 +56,10 @@ const Verify = () => {
         })
         if (res.status === 200) {
             navigator("/")
+            const API = import.meta.env.VITE_API_URL;
             let res = await axios({
                 method: 'post',
-                url: `${process.env.BACKEND_URL}/users/signup`,
+                url: `${API}/users/signup`,
                 data: {
                     Fullname,
                     email,
