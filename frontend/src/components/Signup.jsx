@@ -1,14 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Sign from './API/Authpage'
 import axios from 'axios'
-import Snackbar from "@mui/material/Snackbar";
+import Snackbar from "@mui/material/Snackbar"
+import { useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
+import { UserContext } from './Contextapi'
 
 
 const Signup = () => {
-
+    const navigator = useNavigate();
     const [Fullname, setName] = useState()
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
+    
 
     const [snackbar, setSnackbar] = useState({
           open: false,
@@ -26,36 +30,54 @@ const Signup = () => {
         setSnackbar({ ...snackbar, open: false });
       };
     
+     const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+    };
 
 
-    const handlbutton = async (e) => {
-        e.preventDefault()
-        setName("")
-        setEmail("")
-        setPassword("")
-        console.log("User signed up:", { Fullname, email, password })
-        try {
-            let res = await axios({
-               method: 'post',
-               url: 'http://localhost:3000/users/signup',
-               data: {
-                   Fullname,
-                   email,
-                   password
-               }
-           })
-           if(res.status === 200) {
-               showSnackbar("✅ Signup successful");
+
+
+const handlbutton = async (e) => {
+    e.preventDefault()
+    setName("")
+    setEmail("")
+    setPassword("")
+    if (!validateEmail(email)) {
+        showSnackbar("❌ Invalid Email");
+        return;
+    }
+    if (!Fullname || !email || !password) {
+        showSnackbar("❌ All fields are required");
+        return;
+    }
+    
+    try{
+        let  res = await  axios({
+            method: "POST",
+            url: "http://localhost:3000/OTP/send-otp",
+            data: {
+                email
             }
-            else{
-                showSnackbar("❌ Signup failed");
-            }
-        } catch (error) {
-            
+        })
+        
+        if(res.status === 200) {
+            showSnackbar("✅ OTP sent to your email");
+            navigator("/verify")
+            localStorage.setItem("email", email); // Store email for verification
+            localStorage.setItem("Fullname", Fullname);
+            localStorage.setItem("password", password);
         }
+
+        } catch (error) {
+            showSnackbar("❌ Error sending OTP");
+        }
+
+        
+        
           
     }
-
+    
     return (
         <>
             <div>
@@ -71,19 +93,19 @@ const Signup = () => {
                                 <input
                                     value={Fullname}
                                     onChange={(e) => { setName(e.target.value) }}
-                                    className='w-full text-md px-5  py-2 outline-none ' type="text" placeholder=' Fullname' name='Fullname' />
+                                    className='w-full text-md px-5  py-2 outline-none ' type="text" placeholder=' Fullname'  />
                             </div>
                             <div className='w-70 bg-white h-10 rounded'>
                                 <input
                                     value={email}
                                     onChange={(e) => { setEmail(e.target.value) }}
-                                    className='w-full text-md px-5  py-2 outline-none ' type="email" placeholder='Email' name='email' />
+                                    className='w-full text-md px-5  py-2 outline-none ' type="email" placeholder='Email'  />
                             </div>
                             <div className='w-70 bg-white h-10 rounded'>
                                 <input
                                     value={password}
                                     onChange={(e) => { setPassword(e.target.value) }}
-                                    className='w-full text-md px-5  py-2 outline-none ' type="password" placeholder=' Password' name='password' />
+                                    className='w-full text-md px-5  py-2 outline-none ' type="password" placeholder=' Password' />
                             </div>
                             <button
                                 onClick={handlbutton}
@@ -103,7 +125,7 @@ const Signup = () => {
                 </div>
             </div>
            
-            {/* <Sign Fullname={Fullname} email={email} password={password} /> */}
+            
         </>
     )
 }

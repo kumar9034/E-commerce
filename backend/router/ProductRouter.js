@@ -1,17 +1,33 @@
 const express = require('express')
 const router = express()
-const { upload }= require("../config/multer-config")
+const { upload, cloudinary }= require("../config/multer-config.js")
 const productmodel = require('../models/Product-models')
 
 router.post('/', upload.single("image"), async function(req, res){
+
+    const uploadResult = await new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        { folder: "products" },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        }
+      );
+      stream.end(req.file.buffer);
+    });
     try{
-        let { name, price, description } = req.body
-        
+        let { name, price, description, discountedPrice, discount, stock, rating } = req.body
+        console.log(name, price, description, discountedPrice, stock, rating, discount)
+
         let product = await productmodel.create({
             name,
             price,
             description,
-            image: req.file.path,
+            image: uploadResult.secure_url,
+            discountedPrice,
+            stock,
+            rating,
+            discount
         })
         
         res.status(200).send({ product, message: "Product created successfully" })
@@ -20,6 +36,8 @@ router.post('/', upload.single("image"), async function(req, res){
     }
     
 })
-
+router.get('/check', async function(req, res){
+    res.status(200).send({ message: "Product router is working" })
+})
 
 module.exports = router

@@ -7,7 +7,7 @@ const productSchema =new mongoose.Schema({
         required: true,
         trim: true,
     },
-    price:{
+    discountedPrice:{
         type: Number,
         required: true,
         min: 0,
@@ -16,13 +16,33 @@ const productSchema =new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        minLength: 10,
+        minLength: 1,
     },
     image:{
         type: String,
         required: true,
     },
-    
+    discount:{
+        type: Number,
+        required: true,
+    },
+    stock:{
+        type: Number,
+        required: true,
+        min: 0,
+    },
+    price:{
+        type: Number,
+        required: true,
+        min: 0,
+    },
+    rating:{
+        type: Number,
+        required: true,
+        min: 0,
+        max: 5
+    }
+
 }, { timestamps: true })
 
 module.exports = mongoose.model('Product', productSchema)

@@ -29,7 +29,7 @@ const usershema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Order',
     }],
-    contact: {
+    mobile: {
         type: Number,
         minLength: 0,
         maxLength: 10,

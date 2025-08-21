@@ -8,7 +8,6 @@ function isLoggedin(req, res, next) {
   if (!token) return res.status(401).json({ message: "Token missing" });
 
   jwt.verify(token, process.env.JWT_KEY, (err, user) => {
-    console.log(err, user)
   if (err && err.name === "TokenExpiredError") {
     return res.status(401).json({ message: "Token expired",});
   }else{

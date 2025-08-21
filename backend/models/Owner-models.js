@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { type } = require('os');
+const { ref } = require('process');
 
 const Ownershema = new mongoose.Schema({
   Fullname: {
@@ -18,13 +19,13 @@ const Ownershema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        minLength: 8,
+        
     },
 
-    Products: {
-        type: Array,
-        default: []
-    },
+    Products: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product"
+    }],
     picture:{
         type: String,
         // default: 'https://res.cloudinary.com/dz1qj3x8h/image/upload/v1735686260/avatars/avatar-1.png'

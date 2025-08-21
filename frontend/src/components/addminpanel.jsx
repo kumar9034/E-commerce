@@ -8,6 +8,10 @@ const Addminpanel = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
+  const [discountedPrice, setDiscountedPrice] = useState("");
+  const [stock, setStock] = useState("");
+  const [rating, setRating] = useState("");
+  const [discount, setDiscount] = useState("");
 
   const [show, setShow] = useState(2);
   const [snackbar, setSnackbar] = useState({
@@ -28,12 +32,26 @@ const Addminpanel = () => {
 
   const handlebutton = async (e) => {
   e.preventDefault();
+  setImage(null);
+  setName("");
+  setPrice("");
+  setDescription("");
+  setDiscountedPrice("");
+  setStock("");
+  setRating("");
+  setDiscount("");
 
   const formData = new FormData();
   formData.append("image", image); // File object
   formData.append("name", name);
   formData.append("price", price);
   formData.append("description", description);
+  formData.append("discountedPrice", discountedPrice);
+  formData.append("stock", stock);
+  formData.append("rating", rating);
+  formData.append("discount", discount);
+
+  console.log(formData);
 
   try {
     const res = await axios.post(
@@ -44,10 +62,6 @@ const Addminpanel = () => {
 
     if (res.status === 200) {
       showSnackbar("✅ Product created successfully");
-      setImage(null);
-      setName("");
-      setPrice("");
-      setDescription("");
     } else {
       showSnackbar("❌ Product creation failed");
     }
@@ -82,7 +96,7 @@ const Addminpanel = () => {
             <div>
               <h1 className="text-xl font-bold ml-10">Create new product</h1>
 
-              <div>
+              <div >
                 <h1 className="text-lg font-[600] mt-2 ml-10">
                   Product details
                 </h1>
@@ -94,7 +108,7 @@ const Addminpanel = () => {
                     onChange={(e) => setImage(e.target.files[0])}
                   />
                 </div>
-                <div className="flex">
+                <div className="flex flex-wrap">
                   <div className="w-70 mt-5 ml-10 ">
                     <input
                       value={name}
@@ -115,11 +129,47 @@ const Addminpanel = () => {
                   </div>
                   <div className="w-70 mt-5 ml-10 ">
                     <input
+                      value={discountedPrice}
+                      onChange={(e) => setDiscountedPrice(e.target.value)}
+                      className="border-gray-300 rounded border-1 w-full px-2 py-1 outline-none"
+                      type="text"
+                      placeholder="Product Discounted Price"
+                    />
+                  </div>
+                  <div className="w-70 mt-5 ml-10 ">
+                    <input
+                      value={stock}
+                      onChange={(e) => setStock(e.target.value)}
+                      className="border-gray-300 rounded border-1 w-full px-2 py-1 outline-none"
+                      type="text"
+                      placeholder="Product Stock"
+                    />
+                  </div>
+                  <div className="w-70 mt-5 ml-10 ">
+                    <input
+                      value={rating}
+                      onChange={(e) => setRating(e.target.value)}
+                      className="border-gray-300 rounded border-1 w-full px-2 py-1 outline-none"
+                      type="text"
+                      placeholder="Product rating"
+                    />
+                  </div>
+                  <div className="w-70 mt-5 ml-10 ">
+                    <input
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       className="border-gray-300 rounded border-1 w-full px-2 py-1 outline-none"
                       type="text"
                       placeholder="Product Description"
+                    />
+                  </div>
+                  <div className="w-70 mt-5 ml-10 ">
+                    <input
+                      value={discount}
+                      onChange={(e) => setDiscount(e.target.value)}
+                      className="border-gray-300 rounded border-1 w-full px-2 py-1 outline-none"
+                      type="text"
+                      placeholder="Product Discount"
                     />
                   </div>
                 </div>

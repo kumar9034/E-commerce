@@ -9,7 +9,10 @@ const Navbar = ({logo}) => {
       method: "GET",
     })
     if (res.status === 200) {
-      localStorage.removeItem("token"); // Remove token from local storage
+      localStorage.removeItem("token"); 
+      localStorage.removeItem('Fullname')
+      localStorage.removeItem('email')
+      localStorage.removeItem("password")
       window.location.href = "/"; // Adjust the path as needed
     } else {
       console.error("Logout failed");
@@ -25,7 +28,7 @@ const Navbar = ({logo}) => {
             <ul className='flex gap-6 text-md mt-3 font-[700] text-gray-700'>
                 <li>Home</li>
                 <li className='mr-10 cursor-pointer' onClick={()=> window.location.href = "/dashboard"} >Products</li>
-                <li>Cart</li>
+                <li className='  cursor-pointer' onClick={()=> window.location.href = "/addtocart"}>Cart</li>
                 <li>My account</li>
             </ul>
         <button
