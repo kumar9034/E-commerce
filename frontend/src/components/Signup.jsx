@@ -55,7 +55,7 @@ const handlbutton = async (e) => {
     try{
         let  res = await  axios({
             method: "POST",
-            url: "http://localhost:3000/OTP/send-otp",
+            url: `${process.env.BACKEND_URL}/OTP/send-otp`,
             data: {
                 email
             }

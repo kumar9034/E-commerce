@@ -47,7 +47,7 @@ const Verify = () => {
 
         const res = await axios({
             method: "POST",
-            url: "http://localhost:3000/OTP/verify-otp",
+            url: `${process.env.BACKEND_URL}/OTP/verify-otp`,
             withCredentials: true,
             data: {
                 otp,
@@ -58,7 +58,7 @@ const Verify = () => {
             navigator("/")
             let res = await axios({
                 method: 'post',
-                url: 'http://localhost:3000/users/signup',
+                url: `${process.env.BACKEND_URL}/users/signup`,
                 data: {
                     Fullname,
                     email,

@@ -31,7 +31,7 @@ const Popup = ({ onClose }) => {
        
            let res =  await axios({
                 method: "POST",
-                url: "http://localhost:3000/users/contact-number",
+                url: `${process.env.BACKEND_URL}/users/contact-number`,
                 data:{
                     mobile
                 },

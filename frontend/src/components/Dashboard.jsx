@@ -25,7 +25,7 @@ const Dashboard = () => {
     }
     
     try {
-      let res = await axios.get("http://localhost:3000/dashboard/shop", {
+      let res = await axios.get(`${process.env.BACKEND_URL}/dashboard/shop`, {
         headers: {
           Authorization: `Bearer ${token}`, // ya sessionStorage
         }

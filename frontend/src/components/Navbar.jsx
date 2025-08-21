@@ -5,7 +5,7 @@ const Navbar = ({logo}) => {
 
   const handlelogout = async () => {
     const res = await axios({
-      url: "http://localhost:3000/users/logout",
+      url: `${process.env.BACKEND_URL}/users/logout`,
       method: "GET",
     })
     if (res.status === 200) {

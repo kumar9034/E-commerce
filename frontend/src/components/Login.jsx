@@ -32,7 +32,7 @@ const Login = () => {
     try {
      let res = await axios({
         method: 'post',
-        url: 'http://localhost:3000/users/login',
+        url: `${process.env.BACKEND_URL}/users/login`,
         data: {
           email,
           password,

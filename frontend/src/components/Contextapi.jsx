@@ -11,7 +11,7 @@ function UserProvider({ children }) {
   const detailProduct = async (id, token) => {
     try {
       const res = await axios.get(
-        `http://localhost:3000/dashboard/detail/${id}`,
+        `${process.env.BACKEND_URL}/dashboard/detail/${id}`,
         {
           withCredentials: true,
           headers: {

@@ -55,7 +55,7 @@ const Addminpanel = () => {
 
   try {
     const res = await axios.post(
-      "http://localhost:3000/products/",
+      `${process.env.BACKEND_URL}/products/`,
       formData,
       { headers: { "Content-Type": "multipart/form-data" } }
     );
