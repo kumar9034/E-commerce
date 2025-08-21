@@ -29,7 +29,7 @@ app.use(expressSession({
 }))
 app.use(flash());  
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:5173", // agar tum React Vite use kar rahe ho
+  origin: [ 'https://e-commerce-6-i7zr.onrender.com'], // agar tum React Vite use kar rahe ho
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"]
