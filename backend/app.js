@@ -29,7 +29,7 @@ app.use(expressSession({
 }))
 app.use(flash());  
 app.use(cors({
-  origin: 'http://localhost:5173', // agar tum React Vite use kar rahe ho
+  origin: process.env.FRONTEND_URL || "http://localhost:5173", // agar tum React Vite use kar rahe ho
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"]
@@ -42,6 +42,6 @@ app.use("/dashboard", index)
 app.use("/OTP", OTP)
 
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000')
+app.listen(process.env.PORT || 5000, () => {
+    console.log(`Server is running on port ${process.env.PORT || 3000}`)
 })
