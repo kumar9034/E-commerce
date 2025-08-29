@@ -44,7 +44,7 @@ const Verify = () => {
     const verifyotp = async (e) => {
         // e.preventDefault()
         setOtp("")
-        const API = import.meta.env.VITE_API_URL;
+        const API = import.meta.env.VITE_API;
         const res = await axios({
             method: "POST",
             url: `${API}/OTP/verify-otp`,
@@ -54,9 +54,13 @@ const Verify = () => {
                 email
             }
         })
+        if(res.status===200){
+            showSnackbar("✅ OTP verified successfully");
+        }
+        
         if (res.status === 200) {
             navigator("/")
-            const API = import.meta.env.VITE_API_URL;
+            const API = import.meta.env.VITE_API;
             let res = await axios({
                 method: 'post',
                 url: `${API}/users/signup`,
@@ -66,10 +70,11 @@ const Verify = () => {
                     password
                 }
             })
-            console.log(res)
             if (res.status === 200) {
                 showSnackbar("✅ Signup successful");
-                localStorage.removeItem("verify")
+                setTimeout(()=>{
+                    localStorage.removeItem("verify")
+                }, 4000)
             }
             else {
                 showSnackbar("❌ Signup failed");
@@ -81,6 +86,14 @@ const Verify = () => {
 
     return (
         <div className='w-full h-screen flex '>
+            <Snackbar
+                anchorOrigin={{ vertical, horizontal }}
+                open={open}
+                onClose={handleClose}
+                message={message}
+                key={vertical + horizontal}
+                autoHideDuration={3000}
+            />
             <div>
                 <h1 className='text-black-900  font-bold absolute z-9 text-3xl ml-24 mt-4'>Scatch</h1>
             </div>
@@ -107,14 +120,7 @@ const Verify = () => {
                     Verify OTP
                 </button>
             </div>
-            <Snackbar
-                anchorOrigin={{ vertical, horizontal }}
-                open={open}
-                onClose={handleClose}
-                message={message}
-                key={vertical + horizontal}
-                autoHideDuration={3000}
-            />
+            
 
         </div>
     )

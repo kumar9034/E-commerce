@@ -1,22 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Navbar from './Navbar'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom';
-import Popup from './Popup';
-import Productdetail from './Productdetail';
+import { useNavigate } from 'react-router-dom'
 import { UserContext } from './Contextapi';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [view, setView] = useState(1);
   const [data, setData] = useState([]);
-  // const [popupshow, setPopupshow] = useState(false);
 
-
-  const validateEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
 
   const fetchData = async () => {
     const token = localStorage.getItem("token"); 
@@ -25,7 +17,7 @@ const Dashboard = () => {
     }
     
     try {
-      const API = import.meta.env.VITE_API_URL;
+      const API = import.meta.env.VITE_API;
       let res = await axios.get(`${API}/dashboard/shop`, {
         headers: {
           Authorization: `Bearer ${token}`, // ya sessionStorage
@@ -52,21 +44,39 @@ const Dashboard = () => {
    const detailproduct = async (id) => {
     const token = localStorage.getItem("token");
     if (token) {
-      await detailProduct(id, token); // ✅ API call + context update
-      navigate("/detail");           // Go to detail page
+      await detailProduct(id, token); 
+      navigate("/detail");           
     } else {
       navigate("/");
     }
 
   }
-  
+  const { setId } = useContext(UserContext)
 
+  const addressuser =async (id)=>{
+    const token = localStorage.getItem("token")
+    setId(id)
+    if(token){
+      // await addressUser(id, token)
+      navigate("/address")
+    }
+  }
+  const {setCartItems} = useContext(UserContext)
+  const addtocart = async (id) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setCartItems((prevItems) => [...prevItems, id]);
+      navigate("/addtocart");
+
+    } else {
+      navigate("/");
+    }
+  };
 
   return (
     <div >
 
-         {/* {popupshow && <Popup onClose={() => setPopupshow(false)} />} */}
-      <Navbar logo={"Shop."} />
+      <Navbar logo={"Scatch"} />
       <div className='w-full h-full flex'>
         <div className='w-1/5  h-[32.5rem]  py-10  border-r-2 border-gray-500'>
           <h1
@@ -80,13 +90,13 @@ const Dashboard = () => {
             className='text-lg font-[500] mb-2 cursor-pointer hover:bg-gray-200 pl-10'>Discounted products</h1>
 
         </div>
-        <div className='w-4/5 h-[32.5rem] pl-10 pt-5'>
+        <div className='w-4/5 overflow-y-auto h-[32.5rem] pl-10 pt-5'>
           {view === 1 && <div>
-            <h1 className='text-2xl font-bold '>All Products</h1>
-            <div className='flex flex-wrap gap-5'>
+            <h1 className='text-2xl font-bold mb-5 '>All Products</h1>
+            <div className='flex flex-wrap gap-x-5'>
               {data.map((items, id) => {
                 return <div key={id}
-                className='w-55 mt-5 h-90 border-1 border-gray-500 overflow-hidden  cursor-pointer rounded'>
+                className='w-55 mb-5  h-90 hover:scale-105 transition-transform duration-200 shadow-md  bg-gray-50 overflow-hidden  cursor-pointer rounded'>
                   <div
                    onClick={()=>{detailproduct(items._id)}}
                    className='h-5/9 flex justify-center items-center '>
@@ -102,8 +112,9 @@ const Dashboard = () => {
                     </div>
                     <div className='flex justify-between'>
                       <button
-                      // onClick={()=>setPopupshow(true)}
-                      className='w-20 cursor-pointer text-white mt-3  h-8 font-bold text-[13px] bg-[#fb641b] rounded-xl'>
+                      onClick={()=>addressuser(items._id)}
+                      className='w-20 cursor-pointer hover:bg-[#fb641b]/80 text-white mt-3  h-8 font-bold text-[13px] bg-[#fb641b] rounded-xl'>
+
                         Buy now
                       </button>
                       <button

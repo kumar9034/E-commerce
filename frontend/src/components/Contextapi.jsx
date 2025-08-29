@@ -6,11 +6,14 @@ export const UserContext = createContext();
 
 function UserProvider({ children }) {
   const [product, setProduct] = useState(null);
+  const [response, setResponse] = useState(null);
+  const [id, setId] = useState(null);
+  const [cartItems, setCartItems] = useState([]);
 
   // Fetch product detail
   const detailProduct = async (id, token) => {
     try {
-      const API = import.meta.env.VITE_API_URL;
+      const API = import.meta.env.VITE_API;
       const res = await axios.get(
         `${API}/dashboard/detail/${id}`,
         {
@@ -27,8 +30,10 @@ function UserProvider({ children }) {
     }
   };
 
+  
+
   return (
-    <UserContext.Provider value={{ product, detailProduct }}>
+    <UserContext.Provider value={{ product, detailProduct, setId , id , response, setResponse , cartItems, setCartItems }}>
       {children}
     </UserContext.Provider>
   );

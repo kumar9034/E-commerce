@@ -9,6 +9,8 @@ import Cart from './components/Cart'
 import Productdetail from './components/Productdetail';
 import Verify from './components/Verify';
 import Popup from './components/Popup';
+import Adress from './components/Adress';
+import Finalorder from './components/Finalorder';
 
 const App = () => {
   return (
@@ -21,6 +23,8 @@ const App = () => {
           <Route path="/detail" element={<Productdetail />} />
           <Route path="/verify" element={<Verify />} />
           <Route path="/popup" element={<Popup />} />
+          <Route path="/address" element={<Adress />} />
+          <Route path="/finalorder" element={<Finalorder />} />
         </Routes>
       
     </div>

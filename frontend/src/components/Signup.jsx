@@ -12,73 +12,75 @@ const Signup = () => {
     const [Fullname, setName] = useState()
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
-    
+
 
     const [snackbar, setSnackbar] = useState({
-          open: false,
-          message: "",
-          vertical: "top",
-          horizontal: "center",
-        });
-        const { vertical, horizontal, open, message } = snackbar;
-    
-      const showSnackbar = (msg) => {
+        open: false,
+        message: "",
+        vertical: "top",
+        horizontal: "center",
+    });
+    const { vertical, horizontal, open, message } = snackbar;
+
+    const showSnackbar = (msg) => {
         setSnackbar({ ...snackbar, open: true, message: msg });
-      };
-    
-      const handleClose = () => {
+    };
+
+    const handleClose = () => {
         setSnackbar({ ...snackbar, open: false });
-      };
-    
-     const validateEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
+    };
+
+    const validateEmail = (email) => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
     };
 
 
 
 
-const handlbutton = async (e) => {
-    e.preventDefault()
-    setName("")
-    setEmail("")
-    setPassword("")
-    if (!validateEmail(email)) {
-        showSnackbar("❌ Invalid Email");
-        return;
-    }
-    if (!Fullname || !email || !password) {
-        showSnackbar("❌ All fields are required");
-        return;
-    }
-    
-    try{
-        const API = import.meta.env.VITE_API_URL;
-        let  res = await  axios({
-            method: "POST",
-            url: `${API}/OTP/send-otp`,
-            data: {
-                email
-            }
-        })
-        
-        if(res.status === 200) {
-            showSnackbar("✅ OTP sent to your email");
-            navigator("/verify")
-            localStorage.setItem("email", email); // Store email for verification
-            localStorage.setItem("Fullname", Fullname);
-            localStorage.setItem("password", password);
+    const handlbutton = async (e) => {
+        e.preventDefault()
+        setName("")
+        setEmail("")
+        setPassword("")
+        if (!validateEmail(email)) {
+            showSnackbar("❌ Invalid Email");
+            return;
         }
+        if (!Fullname || !email || !password) {
+            showSnackbar("❌ All fields are required");
+            return;
+        }
+
+        try {
+            const API = import.meta.env.VITE_API;
+            let res = await axios({
+                method: "POST",
+                url: `${API}/OTP/send-otp`,
+                data: {
+                    email
+                }
+            })
+
+            if (res.status === 200) {
+                showSnackbar("✅ OTP sent to your email");
+                setTimeout(()=>{
+                    navigator("/verify")
+                }, 4000)
+                localStorage.setItem("email", email); // Store email for verification
+                localStorage.setItem("Fullname", Fullname);
+                localStorage.setItem("password", password);
+            }
 
         } catch (error) {
             showSnackbar("❌ Error sending OTP");
         }
 
-        
-        
-          
+
+
+
     }
-    
+
     return (
         <>
             <div>
@@ -94,13 +96,13 @@ const handlbutton = async (e) => {
                                 <input
                                     value={Fullname}
                                     onChange={(e) => { setName(e.target.value) }}
-                                    className='w-full text-md px-5  py-2 outline-none ' type="text" placeholder=' Fullname'  />
+                                    className='w-full text-md px-5  py-2 outline-none ' type="text" placeholder=' Fullname' />
                             </div>
                             <div className='w-70 bg-white h-10 rounded'>
                                 <input
                                     value={email}
                                     onChange={(e) => { setEmail(e.target.value) }}
-                                    className='w-full text-md px-5  py-2 outline-none ' type="email" placeholder='Email'  />
+                                    className='w-full text-md px-5  py-2 outline-none ' type="email" placeholder='Email' />
                             </div>
                             <div className='w-70 bg-white h-10 rounded'>
                                 <input
@@ -114,19 +116,19 @@ const handlbutton = async (e) => {
                                 Create my account
                             </button>
                             <Snackbar
-                                    anchorOrigin={{ vertical, horizontal }}
-                                    open={open}
-                                    onClose={handleClose}
-                                    message={message}
-                                    key={vertical + horizontal}
-                                    autoHideDuration={3000}
-                                  />
+                                anchorOrigin={{ vertical, horizontal }}
+                                open={open}
+                                onClose={handleClose}
+                                message={message}
+                                key={vertical + horizontal}
+                                autoHideDuration={3000}
+                            />
                         </div>
                     </div>
                 </div>
             </div>
-           
-            
+
+
         </>
     )
 }

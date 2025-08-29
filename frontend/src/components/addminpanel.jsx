@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Snackbar from "@mui/material/Snackbar";
 import Navbar from "./Navbar";
+import Orders from "./Orders";
 
 const Addminpanel = () => {
   const [image, setImage] = useState(null);
@@ -41,26 +42,27 @@ const Addminpanel = () => {
   setRating("");
   setDiscount("");
 
-  const formData = new FormData();
-  formData.append("image", image); // File object
-  formData.append("name", name);
-  formData.append("price", price);
-  formData.append("description", description);
-  formData.append("discountedPrice", discountedPrice);
-  formData.append("stock", stock);
-  formData.append("rating", rating);
-  formData.append("discount", discount);
+ 
 
-  console.log(formData);
+  
 
   try {
-    const API = import.meta.env.VITE_API_URL;
+    const API = import.meta.env.VITE_API;
     const res = await axios.post(
       `${API}/products/`,
-      formData,
+       {
+        image,
+        name,
+        price,
+        description,
+        discountedPrice,
+        stock,
+        rating,
+        discount
+       },
       { headers: { "Content-Type": "multipart/form-data" } }
     );
-
+    console.log(res);
     if (res.status === 200) {
       showSnackbar("✅ Product created successfully");
     } else {
@@ -90,9 +92,16 @@ const Addminpanel = () => {
           >
             Create new product
           </h1>
+          <h1
+            onClick={() => setShow(3)}
+            className="hover:bg-gray-300 pl-5 cursor-pointer"
+          >
+            Users orders
+          </h1>
         </div>
         <div className="w-5/6">
           {show === 1 && <div>All Products Content</div>}
+          {show === 3 && <div ><Orders/></div>}
           {show === 2 && (
             <div>
               <h1 className="text-xl font-bold ml-10">Create new product</h1>

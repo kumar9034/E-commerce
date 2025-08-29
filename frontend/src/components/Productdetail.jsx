@@ -6,11 +6,18 @@ import { IoCashOutline } from "react-icons/io5"
 import { MdOutlinePublishedWithChanges } from "react-icons/md"
 import { TbTruckDelivery } from "react-icons/tb"; 
 import { GoTrophy } from "react-icons/go";
+import { useNavigate } from "react-router-dom";
 
 function ProductDetail() {
+  const navigate = useNavigate()
   const { product } = useContext(UserContext);
+  const { setId } = useContext(UserContext);
 
   if (!product) return <p>Loading...</p>;
+  const handleBuyNow = (productId) => {
+    setId(productId);
+    navigate("/address");
+  };
 
   return (
     <div>
@@ -25,7 +32,9 @@ function ProductDetail() {
             <button className="text-white w-45 font-[700] text-lg mt-5 h-14 bg-[#ff9f00]">
               Add to cart
             </button>
-            <button className="text-white w-45 font-[700] text-lg mt-5 h-14 bg-[#fb641b]">
+            <button 
+            onClick={() => handleBuyNow(product._id)}
+            className="text-white w-45 font-[700] text-lg mt-5 h-14 bg-[#fb641b]">
               Buy now
             </button>
           </div>

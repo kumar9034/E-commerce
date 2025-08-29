@@ -4,7 +4,7 @@ import axios from 'axios'
 const Navbar = ({logo}) => {
 
   const handlelogout = async () => {
-    const API = import.meta.env.VITE_API_URL;
+    const API = import.meta.env.VITE_API;
     const res = await axios({
       url: `${API}/users/logout`,
       method: "GET",
@@ -34,7 +34,7 @@ const Navbar = ({logo}) => {
             </ul>
         <button
         onClick={handlelogout}
-        className='w-15 h-9 mt-2 rounded-xl bg-blue-500 text-white text-sm px-1 py-1'>logout</button>
+        className='w-15 h-9 mt-2 hover:bg-blue-600 cursor-pointer rounded-xl bg-blue-500 text-white text-sm px-1 py-1'>logout</button>
         </div>
       </div>
     </div>

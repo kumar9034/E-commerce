@@ -30,7 +30,7 @@ const Login = () => {
     setPassword("")
     console.log("User logged in:", { email, password })
     try {
-      const API = import.meta.env.VITE_API_URL;
+      const API = import.meta.env.VITE_API;
      let res = await axios({
         method: 'post',
         url: `${API}/users/login`,
@@ -39,13 +39,14 @@ const Login = () => {
           password,
         }
       })
-      console.log(res)
       if (res.status === 200) {
         showSnackbar("✅ Login successful");
         localStorage.setItem("token", res.data.token);
-        navigate("/dashboard");
-      } 
-      if(res.status === 400) {
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 4000);
+      }
+      if(res.status === 401) {
         showSnackbar("❌ Invalid email or password");
       }
 

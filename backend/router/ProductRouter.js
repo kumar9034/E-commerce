@@ -2,6 +2,7 @@ const express = require('express')
 const router = express()
 const { upload, cloudinary }= require("../config/multer-config.js")
 const productmodel = require('../models/Product-models')
+const OwnerModels = require('../models/Owner-models.js')
 
 router.post('/', upload.single("image"), async function(req, res){
 
@@ -17,7 +18,7 @@ router.post('/', upload.single("image"), async function(req, res){
     });
     try{
         let { name, price, description, discountedPrice, discount, stock, rating } = req.body
-        console.log(name, price, description, discountedPrice, stock, rating, discount)
+        
 
         let product = await productmodel.create({
             name,
@@ -29,13 +30,17 @@ router.post('/', upload.single("image"), async function(req, res){
             rating,
             discount
         })
-        
+        const owner = await OwnerModels.findOne()
+        product.owners = owner
+        await product.save()
+
         res.status(200).send({ product, message: "Product created successfully" })
     } catch (error) {
         res.status(500).send({ message: "Error creating product", error })
     }
     
 })
+
 router.get('/check', async function(req, res){
     res.status(200).send({ message: "Product router is working" })
 })

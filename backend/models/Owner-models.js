@@ -21,7 +21,10 @@ const Ownershema = new mongoose.Schema({
         required: true,
         
     },
-
+    order: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Order"
+    }],
     Products: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product"
